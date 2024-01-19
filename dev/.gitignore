@@ -1,0 +1,22 @@
+# temp files
+*.swp
+# logs
+*.log
+
+# sql dumps
+*.sql
+
+# urls file used in urls.py
+/scripts/urls.txt
+
+# backups folder
+/backup
+
+# logs folder
+/logs
+
+# web files folder
+/web
+
+# private folder
+/private

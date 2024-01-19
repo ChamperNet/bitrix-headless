@@ -1,0 +1,27 @@
+# This is cron file for php-cron docker container
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+
+# default Bitrix cron events
+*  *  *  *  * www-data /usr/bin/php /web/prod/bitrix/modules/main/tools/cron_events.php >>/var/log/php/cron_events.log
+# recalculate price with discount
+30 0  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php /web/prod/local/cron/update_base_discount_price.php 2>&1 >>/web/prod/local/cron/update_base_discount_price.log
+# seo URL fixes
+30 *  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php /web/prod/local/cron/find_and_fix_bugs_in_new_url.php 2>&1 >>/web/prod/local/cron/find_and_fix_bugs_in_new_url.log
+# sitemap generation
+0  0  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php /web/prod/local/cron/bitrix.seo_sitemap_run.php 2>&1 >>/web/prod/local/cron/bitrix.seo_sitemap_run.log
+10 0  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php /web/prod/local/cron/aspro.max_generate_sitemap.php 2>&1 >>/web/prod/local/cron/aspro.max_generate_sitemap.log
+# exports to yandex and google
+0  1  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php -f /web/prod/bitrix/modules/acrit.export/cli/export.php profile=1 auto=Y site=s1 >> /web/prod/upload/acrit.export/log/log_1.e63f31938c399df95752fe5013735c65.txt 2>&1
+30 1  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php -f /web/prod/bitrix/modules/acrit.export/cli/export.php profile=2 auto=Y site=s1 >> /web/prod/upload/acrit.export/log/log_2.e63f31938c399df95752fe5013735c65.txt 2>&1
+0  2  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php -f /web/prod/bitrix/modules/acrit.export/cli/export.php profile=3 auto=Y site=s1 >> /web/prod/upload/acrit.export/log/log_3.e63f31938c399df95752fe5013735c65.txt 2>&1
+30 2  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php -f /web/prod/bitrix/modules/acrit.export/cli/export.php profile=4 auto=Y site=s1 >> /web/prod/upload/acrit.export/log/log_4.e63f31938c399df95752fe5013735c65.txt 2>&1
+0  3  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php -f /web/prod/bitrix/modules/acrit.export/cli/export.php profile=5 auto=Y site=s1 >> /web/prod/upload/acrit.export/log/log_5.e63f31938c399df95752fe5013735c65.txt 2>&1
+30 3  *  *  * www-data /usr/bin/nice -n 10 /usr/bin/php -f /web/prod/bitrix/modules/acrit.export/cli/export.php profile=6 auto=Y site=s1 >> /web/prod/upload/acrit.export/log/log_6.e63f31938c399df95752fe5013735c65.txt 2>&1

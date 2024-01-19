@@ -1,0 +1,39 @@
+#[!p][!r][!o][!d] means "does not start with prod"
+/web/logs/nginx/[!p][!r][!o][!d]*.log
+/web/logs/nginx/prod.error.log
+{
+	dateext
+	dateformat .%Y-%m-%d
+	extension .log
+	rotate 36500
+	monthly
+	minsize 10M
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		/usr/bin/docker exec nginx /bin/sh -c '/usr/sbin/nginx -s reopen > /dev/null 2>/dev/null'
+	endscript
+}
+
+
+/web/logs/nginx/prod.access.log
+{
+	dateext
+	dateformat .%Y-%m-%d
+	extension .log
+	rotate 36500
+	weekly
+	minsize 100M
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		/usr/bin/docker exec nginx /bin/sh -c '/usr/sbin/nginx -s reopen > /dev/null 2>/dev/null'
+	endscript
+}
+
